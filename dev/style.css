@@ -1,0 +1,132 @@
+body {
+    padding-top: calc(1rem + var(--spacing) * 2.5);
+}
+
+nav {
+    z-index: 99;
+    padding: 0 var(--spacing);
+    background-color: var(--card-background-color);
+    box-shadow: var(--card-box-shadow);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.nav-right {
+    width: 270px;
+}
+
+.page-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 2.5fr;
+    max-height: calc(100vh - 1rem - var(--spacing) * 2.5);
+}
+
+.side-bar-list {
+    border-right: 1px solid var(--muted-border-color);
+    border-bottom: 1px solid var(--muted-border-color);
+    overflow-y: scroll;
+}
+
+.side-bar-list>ul {
+    padding: 0;
+    margin: 0;
+}
+
+.side-bar-list>ul>li {
+    cursor: pointer;
+    margin: 0;
+    padding: .4rem;
+    font-size: .86rem;
+    list-style: none;
+    position: relative;
+}
+
+.side-bar-list>ul>li:nth-child(2n+1) {
+    background-color: var(--table-row-stripped-background-color);
+}
+
+.side-bar-list>ul>li small {
+    vertical-align: middle;
+    font-size: .7rem;
+}
+
+.entry-star {
+    float: right;
+    position: absolute;
+    bottom: calc(var(--spacing) / 2);
+    right: calc(var(--spacing) / 2);
+}
+
+.entry-read {
+    font-weight: 300;
+}
+
+.entry-unread {
+    font-weight: bold;
+}
+
+.load-more-btn {
+    width: 96%;
+    margin: auto;
+}
+
+.article-content {
+    padding: calc(var(--spacing) * 1.5);
+    overflow-y: scroll;
+}
+
+.article-content img {
+    margin-bottom: var(--spacing);
+}
+
+.feed-attrs {
+    float: right;
+}
+
+.feed-attrs>i {
+    padding-right: calc(var(--spacing) / 2);
+}
+
+.tab-group>a {
+    border-right: 1px solid var(--primary-hover);
+    border-radius: 0;
+    font-size: .9rem;
+    pointer-events: unset !important;
+    opacity: 1 !important;
+}
+
+.tab-group>a:nth-child(1) {
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.tab-group>a:nth-last-child(1) {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.tab-active {
+    background-color: var(--primary-focus);
+}
+
+.hover-pointer {
+    cursor: pointer;
+}
+
+.create-feed-form {
+    display: flex;
+    margin: calc(var(--spacing) / 2);
+}
+
+.create-feed-form>a {
+    margin-left: calc(var(--spacing) / 2);
+    height: 100%;
+    pointer-events: unset !important;
+    opacity: unset !important;
+}
+
+.error-message {
+    color: var(--del-color);
+    font-size: 0.9rem;
+}
