@@ -20,6 +20,7 @@
   , "nonempty"
   , "ordered-collections"
   , "prelude"
+  , "safe-coerce"
   , "strings"
   , "transformers"
   , "web-html"

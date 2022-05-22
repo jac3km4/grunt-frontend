@@ -32,7 +32,7 @@ view props =
     ]
   where
   renderSub (Subscription { feedUrl, feedId }) =
-    HH.li_
+    HH.li [ css "feed-list" ]
       [ HH.span_ [ HH.text feedUrl ]
       , HH.span [ css "feed-attrs" ]
           [ if props.isHidden feedId then

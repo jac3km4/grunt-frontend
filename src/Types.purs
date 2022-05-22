@@ -16,11 +16,13 @@ import Effect.Unsafe (unsafePerformEffect)
 data AppError
   = HttpError Web.Error
   | UnexpectedResponse StatusCode
+  | ApiError String
   | JsonError JsonDecodeError
 
 instance Show AppError where
   show (HttpError err) = "http error: " <> Web.printError err
   show (UnexpectedResponse code) = "unexpected http status: " <> show code
+  show (ApiError err) = err
   show (JsonError err) = "json error:" <> show err
 
 newtype FeedId

@@ -82,8 +82,13 @@ nav {
     margin-bottom: var(--spacing);
 }
 
+.feed-list {
+    display: flex;
+    justify-content: space-between;
+}
+
 .feed-attrs {
-    float: right;
+    display: flex;
 }
 
 .feed-attrs>i {

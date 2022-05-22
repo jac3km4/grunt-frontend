@@ -3,6 +3,7 @@ module Grunt.Component.View.Article
   ) where
 
 import Prelude
+import Data.Either (Either(..))
 import Data.Foldable (fold)
 import Data.Maybe (Maybe(..), maybe)
 import Data.Newtype (unwrap)
@@ -22,15 +23,19 @@ view (Entry entry) =
     , HH.div_ [ content ]
     ]
   where
+  rendered html = case PH.render_ html of
+    Left err -> HH.text $ "This RSS entry contains invalid HTML: " <> err
+    Right body -> body
+
   content = case entry.content of
     Just body
-      | String.length body > 0 -> PH.render_ body
+      | String.length body > 0 -> rendered body
       | otherwise -> fallbackContent
     Nothing -> fallbackContent
 
   fallbackContent =
     HH.div_
       [ maybe (HH.div_ []) (\src -> HH.img [ HP.src src ]) entry.imageUrl
-      , PH.render_ $ fold entry.summary
+      , rendered $ fold entry.summary
       , HH.div_ [ HH.a [ HP.href entry.url, HP.target "_blank" ] [ HH.text "See article" ] ]
       ]
