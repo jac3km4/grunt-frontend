@@ -9,6 +9,7 @@ import Grunt.Component.Utils (css)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
+import Halogen.HTML.Properties as HP
 import Halogen.HTML.Properties.ARIA as HPA
 
 type State t
@@ -38,6 +39,7 @@ component =
     HH.a
       [ HPA.role "button"
       , css $ if current == tab then "tab-active" else "primary"
+      , HP.href "#"
       , HE.onClick $ const $ SelectedTab tab
       ]
       [ HH.text $ show tab ]

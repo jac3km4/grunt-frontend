@@ -28,10 +28,11 @@ type Props i a
     , onDeleteSubscription :: FeedId -> a
     , onToggleTagPopup :: a
     , onSubmitTagPopup :: a
+    , onTagInput :: String -> a
     , onTagFeed :: Tag -> FeedId -> a
     , onUntagFeed :: Tag -> TaggingId -> a
     , feedUrlInput :: HH.HTML i a
-    , tagInput :: HH.HTML i a
+    , tagInputValue :: String
     }
 
 view :: forall i a. Props i a -> HH.HTML i a
@@ -41,7 +42,7 @@ view props =
     , HH.div
         [ css "create-feed-form" ]
         [ props.feedUrlInput
-        , HH.a [ HPA.role "button", HE.onClick $ const props.onAddSubscription ] [ HH.text "+" ]
+        , HH.a [ HPA.role "button", HP.href "#", HE.onClick $ const props.onAddSubscription ] [ HH.text "+" ]
         ]
     ]
   where
@@ -55,6 +56,7 @@ view props =
           , HH.a
               [ css "delete-feed-button"
               , HPA.role "button"
+              , HP.href "#"
               , HE.onClick $ const $ props.onDeleteSubscription feedId
               ]
               [ HH.text "Delete" ]
@@ -91,9 +93,10 @@ view props =
         [ HH.article_
             [ HH.a [ css "close", HE.onClick $ const props.onToggleTagPopup ] []
             , HH.h3_ [ HH.text "Add a tag" ]
-            , HH.div_ [ props.tagInput ]
+            , HH.input [ HE.onValueChange props.onTagInput, HP.value props.tagInputValue ]
             , HH.footer_
-                [ HH.a [ HP.href "#", HPA.role "button", E.onClick $ const props.onSubmitTagPopup ] [ HH.text "Confirm" ]
+                [ HH.a [ HP.href "#", HPA.role "button", E.onClick $ const props.onSubmitTagPopup ]
+                    [ HH.text "Confirm" ]
                 ]
             ]
         ]

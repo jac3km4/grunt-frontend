@@ -126,8 +126,6 @@ nav {
     border-right: 1px solid var(--primary-hover);
     border-radius: 0;
     font-size: .9rem;
-    pointer-events: unset !important;
-    opacity: 1 !important;
 }
 
 .tab-group>a:nth-child(1) {
@@ -154,15 +152,11 @@ nav {
 .create-feed-form a {
     margin-left: calc(var(--spacing) / 2);
     height: 100%;
-    pointer-events: unset !important;
-    opacity: unset !important;
 }
 
 .delete-feed-button {
     background-color: var(--del-color);
     border-color: var(--secondary-focus);
-    opacity: unset !important;
-    pointer-events: unset !important;
 }
 
 .error-message {

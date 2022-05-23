@@ -44,6 +44,7 @@ type State
     , tags :: Map Tag (Map FeedId TaggingId)
     , tagPopupOpen :: Boolean
     , filters :: Set Tag
+    , tagInput :: String
     }
 
 data TabState
@@ -83,15 +84,14 @@ data Action
   | TagFeed Tag FeedId
   | UntagFeed Tag TaggingId
   | EnableFilter Tag Boolean
+  | TagInput String
 
 type Slots
   = ( feedUrlInput :: H.Slot TextInput.Query Void Unit
-    , tagInput :: H.Slot TextInput.Query Void Unit
     , tabs :: H.Slot (Tabs.Query SideTab) SideTab Unit
     )
 
 _feedUrlInput = Proxy :: Proxy "feedUrlInput"
-_tagInput = Proxy :: Proxy "tagInput"
 _tabs = Proxy :: Proxy "tabs"
 
 component :: forall q i o m. MonadAff m => H.Component q i o m
@@ -112,6 +112,7 @@ initialState _ =
   , tags: Map.empty
   , tagPopupOpen: false
   , filters: Set.empty
+  , tagInput: ""
   }
 
 render :: forall m. State -> H.ComponentHTML Action Slots m
@@ -145,8 +146,9 @@ render state =
         , onSubmitTagPopup: SubmitTagPopup
         , onTagFeed: TagFeed
         , onUntagFeed: UntagFeed
+        , onTagInput: TagInput
         , feedUrlInput: HH.slot_ _feedUrlInput unit TextInput.component { placeholder: "RSS feed URL" }
-        , tagInput: HH.slot_ _tagInput unit TextInput.component { placeholder: "Tag name" }
+        , tagInputValue: state.tagInput
         }
 
   renderEntryList entries reachedEnd =
@@ -275,15 +277,12 @@ handleAction act =
           H.modify_ \st -> st { tagPopupOpen = not st.tagPopupOpen }
         
         SubmitTagPopup -> do
-          maybeTag <- lift $ H.request _tagInput unit TextInput.GetValue
-          case maybeTag of
-            Just value ->
-              H.modify_ \st -> st
-                { tags = Map.alter (Just <<< fromMaybe Map.empty) (Tag value) st.tags
-                , tagPopupOpen = false
-                }
-            Nothing -> pure unit
-        
+          {tagInput} <- H.get
+          H.modify_ \st -> st
+            { tags = Map.alter (Just <<< fromMaybe Map.empty) (Tag tagInput) st.tags
+            , tagPopupOpen = false
+            }
+
         TagFeed tag feedId -> do
           tagging <- ExceptT $ liftAff $ Api.addTagging feedId tag
           H.modify_ \st -> st { tags = addTagging st.tags tagging }
@@ -299,6 +298,9 @@ handleAction act =
             H.modify_ \st -> st { filters = Set.delete tag st.filters }
           _ <- lift $ H.tell _tabs unit $ Tabs.SelectTab EntriesTab
           lift $ handleAction $ SelectedTab EntriesTab
+        
+        TagInput val ->
+          H.modify_ $ _ { tagInput = val }
 
   where
   pageSize = 25

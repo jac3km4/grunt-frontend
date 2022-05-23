@@ -4,7 +4,6 @@ module Grunt.Component.TextInput
   ) where
 
 import Prelude
-
 import Data.Maybe (Maybe(..))
 import Grunt.Component.Utils (css)
 import Halogen as H
@@ -32,7 +31,12 @@ component =
   where
   render { value, placeholder, error } =
     HH.div_
-      [ HH.input [ HP.type_ HP.InputText, HP.placeholder placeholder, HP.value value, HE.onValueInput ChangeValue ]
+      [ HH.input
+          [ HP.type_ HP.InputText
+          , HP.placeholder placeholder
+          , HP.value value
+          , HE.onValueInput ChangeValue
+          ]
       , case error of
           Just msg -> HH.div [ css "error-message" ] [ HH.text msg ]
           Nothing -> HH.div_ []
