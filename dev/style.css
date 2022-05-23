@@ -21,13 +21,13 @@ nav {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 2.5fr;
-    max-height: calc(100vh - 1rem - var(--spacing) * 2.5);
+    height: calc(100vh - 1rem - var(--spacing) * 2.5);
 }
 
-.side-bar-list {
+.side-bar {
+    overflow-y: scroll;
     border-right: 1px solid var(--muted-border-color);
     border-bottom: 1px solid var(--muted-border-color);
-    overflow-y: scroll;
 }
 
 .side-bar-list>ul {
@@ -83,8 +83,35 @@ nav {
 }
 
 .feed-list {
+    padding-top: var(--spacing);
+}
+
+.feed-list>details>summary,
+.feed-list>details>div {
+    padding-left: calc(var(--spacing) / 2);
+    padding-right: calc(var(--spacing) / 2);
+}
+
+.feed-url {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.feed-tags {
+    margin-top: calc(var(--spacing) / 2);
+}
+
+.add-tag>i {
+    font-size: 1.4rem;
+    margin-right: 0.4rem;
+    cursor: pointer;
+}
+
+.add-tag {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
 }
 
 .feed-attrs {
@@ -92,7 +119,7 @@ nav {
 }
 
 .feed-attrs>i {
-    padding-right: calc(var(--spacing) / 2);
+    padding-left: calc(var(--spacing) / 2);
 }
 
 .tab-group>a {
@@ -124,14 +151,25 @@ nav {
     margin: calc(var(--spacing) / 2);
 }
 
-.create-feed-form>a {
+.create-feed-form a {
     margin-left: calc(var(--spacing) / 2);
     height: 100%;
     pointer-events: unset !important;
     opacity: unset !important;
 }
 
+.delete-feed-button {
+    background-color: var(--del-color);
+    border-color: var(--secondary-focus);
+    opacity: unset !important;
+    pointer-events: unset !important;
+}
+
 .error-message {
     color: var(--del-color);
     font-size: 0.9rem;
+}
+
+.tag-filter {
+    margin: calc(var(--spacing) / 2);
 }

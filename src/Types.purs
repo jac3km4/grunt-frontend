@@ -42,6 +42,15 @@ derive newtype instance Ord EntryId
 derive newtype instance DecodeJson EntryId
 derive newtype instance EncodeJson EntryId
 
+newtype TaggingId
+  = TaggingId Int
+
+derive newtype instance Eq TaggingId
+derive newtype instance Ord TaggingId
+derive newtype instance Show TaggingId
+derive newtype instance DecodeJson TaggingId
+derive newtype instance EncodeJson TaggingId
+
 newtype Timestamp
   = Timestamp String
 
@@ -108,3 +117,27 @@ instance DecodeJson Entry where
     images <- obj .:? "images"
     imageUrl <- traverse (_ .: "original_url") images
     pure $ Entry { id, feedId, title, url, author, content, summary, published, createdAt, imageUrl } 
+
+newtype Tagging
+    = Tagging
+    { id :: TaggingId
+    , feedId :: FeedId
+    , name :: Tag
+    }
+
+instance DecodeJson Tagging where
+  decodeJson json = do
+    obj <- decodeJson json
+    id <- obj .: "id"
+    feedId <- obj .: "feed_id"
+    name <- obj .: "name"
+    pure $ Tagging { id, feedId, name } 
+
+newtype Tag
+  = Tag String
+
+derive newtype instance Eq Tag
+derive newtype instance Ord Tag
+derive newtype instance Show Tag
+derive newtype instance DecodeJson Tag
+derive newtype instance EncodeJson Tag

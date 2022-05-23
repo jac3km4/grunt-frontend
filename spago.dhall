@@ -23,6 +23,7 @@
   , "safe-coerce"
   , "strings"
   , "transformers"
+  , "tuples"
   , "web-html"
   ]
 , packages = ./packages.dhall
